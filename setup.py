@@ -15,8 +15,8 @@ with open('README.rst') as readme_file:
 def get_version():
     ver_file = None
     try:
-        ver_file, pathname, description = imp.find_module('__version__', ['src/wstool'])
-        vermod = imp.load_module('__version__', ver_file, pathname, description)
+        ver_file, pathname, description = importlib.find_module('__version__', ['src/wstool'])
+        vermod = importlib.load_module('__version__', ver_file, pathname, description)
         version = vermod.version
         return version
     finally:
