@@ -4,7 +4,7 @@ from distutils.command.build_py import build_py
 
 import os
 import sys
-import importlib
+import importlib.util
 import argparse
 
 
@@ -13,15 +13,15 @@ with open('README.rst') as readme_file:
 
 
 def get_version():
-    ver_file = None
-    try:
-        ver_file, pathname, description = importlib.find_module('__version__', ['src/wstool'])
-        vermod = importlib.load_module('__version__', ver_file, pathname, description)
+    version = None
+    version_file_path = os.path.join('src', 'wstool', '__version__.py')
+    
+    if os.path.isfile(version_file_path):
+        spec = importlib.util.spec_from_file_location("__version__", version_file_path)
+        vermod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(vermod)
         version = vermod.version
-        return version
-    finally:
-        if ver_file is not None:
-            ver_file.close()
+    return version
 
 
 def _resolve_prefix(prefix, type):
