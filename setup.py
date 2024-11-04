@@ -4,7 +4,7 @@ from distutils.command.build_py import build_py
 
 import os
 import sys
-import imp
+import importlib
 import argparse
 
 
